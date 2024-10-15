@@ -1,0 +1,25 @@
+.post-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+
+    .post-item {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        .titleContainer {
+            display: flex;
+            gap: 20px;
+
+        }
+
+        .timeContainer {
+            display: flex;
+            gap: 20px;
+        }
+
+    }
+
+}
