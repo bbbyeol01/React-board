@@ -43,19 +43,22 @@ export default function Read() {
 
   return (
     <>
-      <section>
-        <article>
-          <h2>{post.title}</h2>
+      <main>
+        <section>
+          <div className="titleContainer">
+            <div className="title">{post.title}</div>
+          </div>
           <div>{post.content}</div>
           <div>{post.writer}</div>
           <div>{post.time}</div>
-        </article>
-        <article className={styles.buttonContainer}>
+        </section>
+
+        <section className={styles.buttonContainer}>
           <button>수정</button>
           <button>삭제</button>
-        </article>
+        </section>
         <List page={1} />
-      </section>
+      </main>
     </>
   );
 }

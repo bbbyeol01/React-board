@@ -12,11 +12,32 @@ code {
     monospace;
 }
 
-section {
+main {
   margin: 0 10vw;
 }
 
 a {
   text-decoration: none;
   color: inherit;
+}
+
+.titleContainer{
+  display: flex;
+  justify-content: space-between;
+  margin: 5vh 0;
+  align-items: center;
+}
+
+.title{
+  font-size: 20pt;
+  font-weight: bold;
+  max-width: 50vw;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  height: 50px;
+  display: flex;
+  align-items: center;
+
 }

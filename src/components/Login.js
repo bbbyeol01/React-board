@@ -4,7 +4,7 @@ import styles from "../css/login.module.css";
 export default function Login() {
   return (
     <>
-      <section>
+      <main>
         <article className="titleContainer">
           <div className="title">로그인</div>
         </article>
@@ -20,7 +20,7 @@ export default function Login() {
         <article>
           <Link to={"/"}>회원가입</Link>
         </article>
-      </section>
+      </main>
     </>
   );
 }

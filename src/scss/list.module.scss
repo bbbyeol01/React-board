@@ -1,25 +1,53 @@
 .post-list {
     display: flex;
     flex-direction: column;
-    gap: 20px;
     width: 100%;
+    min-height: 400px;
 
     .post-item {
         display: flex;
         justify-content: space-between;
-        width: 100%;
+        width: calc(100% - 20px);
+        min-height: 20px;
+        height: 20px;
+        padding: 10px;
+        cursor: pointer;
 
         .titleContainer {
             display: flex;
-            gap: 20px;
+            align-items: center;
+
+            .title {
+                font-size: 12pt;
+                font-weight: bold;
+                width: 500px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                word-break: break-all;
+
+            }
 
         }
 
-        .timeContainer {
+        .infoContainer {
             display: flex;
             gap: 20px;
+            align-items: center;
+
+            * {
+                font-size: 10pt;
+            }
         }
 
+    }
+
+    .post-item:hover {
+        background-color: #c7deca;
+    }
+
+    .even {
+        background-color: rgb(243, 243, 243);
     }
 
 }

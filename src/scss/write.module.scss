@@ -1,0 +1,53 @@
+.buttonContainer {
+    display: flex;
+    gap: 10px;
+
+    .backBtn {
+        height: 50px;
+        width: 120px;
+        border: none;
+        border-radius: 10px;
+        font-size: 10pt;
+        font-weight: bold;
+        color: white;
+        background-color: #888;
+
+    }
+
+    .writeBtn {
+        height: 50px;
+        width: 120px;
+        border: none;
+        border-radius: 10px;
+        font-size: 10pt;
+        font-weight: bold;
+        color: white;
+        background-color: rgb(115, 185, 125);
+        cursor: pointer;
+
+    }
+}
+
+.inputContainter {
+    margin: 0 5vw;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .title {
+        height: 40px;
+        padding: 0 20px;
+        outline: none;
+        border: lightgray solid 1px;
+        border-radius: 10px;
+    }
+
+    .content {
+        height: 300px;
+        padding: 20px;
+        outline: none;
+        border: lightgray solid 1px;
+        border-radius: 10px;
+    }
+
+}

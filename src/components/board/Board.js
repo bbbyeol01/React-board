@@ -1,14 +1,13 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import List from "./List";
 import styles from "../../css/board.module.css";
-import queryString from "query-string";
 
 export default function Board() {
-  const location = useLocation();
-  const { page } = queryString.parse(location.search) || 1;
+  const [searchParams] = useSearchParams();
+  const page = Number(searchParams.get("page")) || 1;
 
   return (
-    <section>
+    <main>
       <div className="titleContainer">
         <div className="title">게시판</div>
         <Link to={"/board/write"}>
@@ -18,6 +17,6 @@ export default function Board() {
       <div className={styles.board}>
         <List page={page} />
       </div>
-    </section>
+    </main>
   );
 }

@@ -7,11 +7,11 @@ export default function Edit() {
   return (
     <>
       <Link to={"/board"}>뒤로가기</Link>
-      <section>
+      <main>
         <h1>{id}번 수정</h1>
         <textarea type="text" name="content" />
         <button>작성</button>
-      </section>
+      </main>
     </>
   );
 }
