@@ -1,0 +1,16 @@
+.goTop {
+    margin-left: 85vw;
+    margin-top: 70vh;
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0.3);
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    border-radius: 100px;
+    border: lightgray solid 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+}

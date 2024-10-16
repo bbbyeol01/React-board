@@ -48,7 +48,7 @@ export default function List({ page }) {
 
             <div className={styles.infoContainer}>
               <div className={styles.nickname}>{post.nickname}</div>
-              <div className={styles.time}>{post.time}</div>
+              <div className={styles.time}>{post.time.substring(0, 10)}</div>
             </div>
           </div>
         ))}

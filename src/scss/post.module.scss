@@ -1,11 +1,26 @@
 .buttonContainer {
+    display: -webkit-inline-flex;
+    gap: 10px;
+    align-items: center;
+
     button {
-        background-color: blue;
-        color: white;
+        height: 50px;
+        width: 100px;
         border: none;
-        padding: 10px;
         border-radius: 10px;
+        font-size: 10pt;
+        font-weight: bold;
+        color: white;
+        background-color: #73b97d;
+        cursor: pointer;
     }
 
+    .delBtn {
+        background-color: #d59191;
+    }
 
+}
+
+.content {
+    margin: 10vh 0;
 }

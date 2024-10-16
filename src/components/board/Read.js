@@ -3,6 +3,7 @@ import List from "./List";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import styles from "../../css/post.module.css";
+import Reply from "../../components/board/Reply";
 
 export default function Read() {
   const { idx } = useParams(); // URL에서 id 추출
@@ -47,16 +48,18 @@ export default function Read() {
         <section>
           <div className="titleContainer">
             <div className="title">{post.title}</div>
+            <div className={styles.buttonContainer}>
+              <button className={styles.editBtn}>수정</button>
+              <button className={styles.delBtn}>삭제</button>
+            </div>
           </div>
-          <div>{post.content}</div>
-          <div>{post.writer}</div>
+
           <div>{post.time}</div>
+          <div>{post.nickname}</div>
+          <div className={styles.content}>{post.content}</div>
         </section>
 
-        <section className={styles.buttonContainer}>
-          <button>수정</button>
-          <button>삭제</button>
-        </section>
+        <Reply />
         <List page={1} />
       </main>
     </>
