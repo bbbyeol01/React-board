@@ -10,6 +10,7 @@ nav .logoContainer {
   justify-self: start;
 }
 nav .logoContainer a {
+  max-height: 30px;
   padding: 10px 20px;
   border-radius: 50px;
   border: 2px transparent solid;
@@ -28,9 +29,13 @@ nav .menuContainer {
   justify-self: end;
 }
 nav .menuContainer a {
+  max-height: 25px;
   padding: 10px 20px;
   border-radius: 50px;
   border: 2px transparent solid;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 nav .menuContainer a:hover {
   border: 2px black solid;
@@ -38,4 +43,22 @@ nav .menuContainer a:hover {
 nav .menuContainer .active {
   background-color: black;
   color: white;
+}
+nav .menuContainer .nicknameContainer {
+  display: flex;
+  align-items: center;
+}
+nav .menuContainer .nicknameContainer .nickname {
+  font-size: 14pt;
+}
+nav .menuContainer .profile-image {
+  display: flex;
+  width: 32px;
+  border-radius: 100px;
+  border: 1px solid lightgray;
+}
+nav .menuContainer .profile-image img {
+  width: 100%;
+  object-fit: cover;
+  border-radius: inherit;
 }
