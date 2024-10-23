@@ -1,6 +1,7 @@
 import { Link, useSearchParams } from "react-router-dom";
 import List from "./List";
 import styles from "../../css/board.module.css";
+import GoTop from "../GoTop";
 
 export default function Board() {
   const [searchParams] = useSearchParams();
@@ -8,6 +9,7 @@ export default function Board() {
 
   return (
     <main>
+      <GoTop />
       <div className="titleContainer">
         <div className="title">게시판</div>
         <Link to={"/board/write"}>

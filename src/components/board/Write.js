@@ -8,42 +8,48 @@ export default function Write() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    writer: "unknown",
+    writer: "",
     title: "",
     content: "",
   });
 
-  const [cookies, setCookie] = useCookies(["accessToken"]); // 쿠키 이름을 배열로 전달합니다.
+  const [cookies, setCookie] = useCookies(["accessToken"]);
 
   const [member, setMember] = useState();
 
   useEffect(() => {
-    // 쿠키 값 가져오기
-    const accessToken = cookies.accessToken; // 'token'이라는 이름의 쿠키 값을 가져옵니다.
+    // 쿠키 가져오기
+    const accessToken = cookies.accessToken;
     console.log(accessToken);
 
     axios
-      .get("http://localhost:8080/api/kakao/member", {
+      .get("http://localhost:8080/api/member", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {
         console.log(response.data);
-        setMember({
-          nickname: response.data.nickname,
-          profile_image: response.data.profile_image,
-        });
 
-        setFormData((prevState) => ({
-          ...prevState,
-          nickname: member.nickname,
-        }));
+        if (response.data) {
+          setMember({
+            id: response.data?.id,
+            nickname: response.data?.nickname,
+          });
+        }
       })
       .catch((error) => {
         console.error(error);
       });
   }, []);
+
+  useEffect(() => {
+    setFormData((prevState) => ({
+      ...prevState,
+      writer: member?.id,
+      nickname: member?.nickname,
+    }));
+  }, [member]);
 
   function handleChange(e) {
     const { name, value } = e.target;

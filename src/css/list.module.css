@@ -12,6 +12,7 @@
   height: 20px;
   padding: 10px;
   cursor: pointer;
+  border-bottom: 1px lightgray solid;
 }
 .post-list .post-item .titleContainer {
   display: flex;
@@ -36,7 +37,4 @@
 }
 .post-list .post-item:hover {
   background-color: #c7deca;
-}
-.post-list .even {
-  background-color: #f3f3f3;
 }

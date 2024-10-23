@@ -10,6 +10,7 @@ export default function List({ page }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get(`http://localhost:8080/api/board?page=${Number(page)}`)
       .then((response) => {

@@ -1,3 +1,53 @@
-h1 {
-    color: blue;
+.section {
+    width: 100vw;
+    height: 100vh;
+}
+
+.weatherContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0px 5vw;
+    gap: 20px;
+    color: white;
+
+    .infoContainer {
+        display: flex;
+        flex-direction: column;
+        text-align: right;
+        gap: 2px;
+
+        .currentTemp {
+            font-size: 1.4rem;
+        }
+    }
+
+    .weatherImage {
+        overflow: hidden;
+        display: flex;
+    }
+
+}
+
+
+.greeting {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: white;
+    height: 200px;
+    position: absolute;
+    text-align: center;
+    margin-top: 10vh;
+
+    .text {
+        width: 50%;
+        text-align: center;
+        word-break: word-all;
+        text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.3);
+
+    }
 }

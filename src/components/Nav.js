@@ -14,60 +14,90 @@ export default function Nav() {
   useEffect(() => {
     // 쿠키 값 가져오기
     const accessToken = cookies.accessToken; // 'token'이라는 이름의 쿠키 값을 가져옵니다.
+
     console.log(accessToken);
 
     axios
-      .get("http://localhost:8080/api/kakao/member", {
+      .get("http://localhost:8080/api/member", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {
-        console.log(response.data);
         setMember({
           nickname: response.data.nickname,
-          profile_image: response.data.profile_image,
+          profile_image:
+            response.data.profile_image || "/images/default_profile.png",
         });
-      })
-      .catch((error) => {
-        console.error(error);
       });
   }, []);
 
   return (
     <nav>
-      <div className={styles.logoContainer}>
-        <Link to={"/"} className={currentPath === "/" ? styles.active : ""}>
+      <div
+        className={`${styles.logoContainer} ${
+          currentPath === "/" ? styles.light : ""
+        }`}
+      >
+        <Link
+          to={"/"}
+          className={`${currentPath === "/" ? styles.active : ""}`}
+        >
           Home
         </Link>
       </div>
       <div className={styles.menuContainer}>
         <Link
           to={"/board?page=1"}
-          className={currentPath === "/board" ? styles.active : ""}
+          className={`${currentPath === "/board" ? styles.active : ""} ${
+            currentPath === "/" ? styles.light : ""
+          }`}
         >
           Board
         </Link>
         <Link
           to={"/about"}
-          className={currentPath === "/about" ? styles.active : ""}
+          className={`${currentPath === "/about" ? styles.active : ""} ${
+            currentPath === "/" ? styles.light : ""
+          }`}
         >
           About
         </Link>
 
         {member ? (
-          <Link to={"/"}>
-            <div className={styles.nicknameContainer}>
-              <strong className={styles.nickname}>{member.nickname}</strong>님
+          <div className={styles.profileContainer}>
+            <div
+              className={`${styles.nicknameContainer} ${
+                currentPath === "/" ? styles.light : ""
+              }`}
+            >
+              <strong
+                className={`${styles.nickname} ${
+                  currentPath === "/" ? styles.light : ""
+                }`}
+              >
+                {member.nickname}
+              </strong>
+              님
             </div>
-            <div className={styles["profile-image"]}>
-              <img src={member.profile_image}></img>
+
+            <div className={styles.imageContainer}>
+              <div className={styles.profile}>
+                <img src={member.profile_image}></img>
+              </div>
+
+              <div className={styles.menu}>
+                <Link className={styles.mypage}>마이페이지</Link>
+                <Link className={styles.logout}>로그아웃</Link>
+              </div>
             </div>
-          </Link>
+          </div>
         ) : (
           <Link
             to={"/login"}
-            className={currentPath === "/login" ? styles.active : ""}
+            className={`${currentPath === "/login" ? styles.active : ""} ${
+              currentPath === "/" ? styles.light : ""
+            }`}
           >
             Login
           </Link>

@@ -11,7 +11,7 @@ export default function GoTop() {
   return (
     <>
       <div className={styles.goTop} onClick={handleClick}>
-        Top
+        <div>Top</div>
       </div>
     </>
   );

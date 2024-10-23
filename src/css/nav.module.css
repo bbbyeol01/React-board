@@ -1,9 +1,11 @@
 nav {
   width: 100vw;
   display: flex;
-  height: 80px;
+  height: 100px;
   align-items: center;
   justify-content: space-between;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent);
+  box-shadow: 1px 3px 9px 888;
 }
 nav .logoContainer {
   margin-left: 5vw;
@@ -16,11 +18,12 @@ nav .logoContainer a {
   border: 2px transparent solid;
 }
 nav .logoContainer a:hover {
-  border: 2px black solid;
+  border: 2px solid black;
 }
 nav .logoContainer .active {
-  background-color: black;
-  color: white;
+  background-color: white;
+  color: black;
+  backdrop-filter: blur(50px);
 }
 nav .menuContainer {
   display: flex;
@@ -38,27 +41,57 @@ nav .menuContainer a {
   gap: 20px;
 }
 nav .menuContainer a:hover {
-  border: 2px black solid;
+  text-decoration: underline;
 }
 nav .menuContainer .active {
   background-color: black;
   color: white;
 }
-nav .menuContainer .nicknameContainer {
+nav .menuContainer .profileContainer {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+nav .menuContainer .profileContainer .nicknameContainer {
   display: flex;
   align-items: center;
 }
-nav .menuContainer .nicknameContainer .nickname {
+nav .menuContainer .profileContainer .nicknameContainer .nickname {
   font-size: 14pt;
 }
-nav .menuContainer .profile-image {
+nav .menuContainer .profileContainer .imageContainer {
+  position: relative;
+}
+nav .menuContainer .profileContainer .imageContainer .profile {
   display: flex;
+  flex-direction: column;
   width: 32px;
   border-radius: 100px;
-  border: 1px solid lightgray;
+  align-items: center;
+  justify-content: center;
 }
-nav .menuContainer .profile-image img {
+nav .menuContainer .profileContainer .imageContainer .profile img {
+  border: 1px solid lightgray;
   width: 100%;
+  height: 100%;
   object-fit: cover;
   border-radius: inherit;
+}
+nav .menuContainer .profileContainer .imageContainer .menu {
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  width: 150px;
+  background-color: white;
+  right: 1vw;
+  margin-top: 10px;
+  border: 1px solid lightgray;
+}
+nav .menuContainer .profileContainer:hover .menu {
+  display: flex;
+}
+nav .light {
+  color: white;
 }
