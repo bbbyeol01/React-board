@@ -7,6 +7,61 @@ nav {
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent);
   box-shadow: 1px 3px 9px 888;
 }
+nav .hamburgerMenu {
+  display: none;
+  margin-left: 10vw;
+  width: calc(100vw - 20vw);
+  justify-content: space-between;
+}
+nav .hamburgerMenu .loginContainer {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+nav .hamburgerMenu .profileContainer {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+nav .hamburgerMenu .profileContainer .nicknameContainer {
+  display: flex;
+  align-items: center;
+}
+nav .hamburgerMenu .profileContainer .nicknameContainer .nickname {
+  font-size: 14pt;
+}
+nav .hamburgerMenu .profileContainer .imageContainer {
+  position: relative;
+}
+nav .hamburgerMenu .profileContainer .imageContainer .profile {
+  display: flex;
+  flex-direction: column;
+  width: 32px;
+  border-radius: 100px;
+  align-items: center;
+  justify-content: center;
+}
+nav .hamburgerMenu .profileContainer .imageContainer .profile img {
+  border: 1px solid lightgray;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+nav .hamburgerMenu .profileContainer .imageContainer .menu {
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  width: 150px;
+  background-color: white;
+  right: 1vw;
+  margin-top: 10px;
+  border: 1px solid lightgray;
+}
 nav .logoContainer {
   margin-left: 5vw;
   justify-self: start;
@@ -94,4 +149,15 @@ nav .menuContainer .profileContainer:hover .menu {
 }
 nav .light {
   color: white;
+}
+
+@media (max-width: 767px) {
+  nav .menuContainer,
+.logoContainer {
+    display: none;
+  }
+
+  nav .hamburgerMenu {
+    display: flex;
+  }
 }

@@ -143,9 +143,9 @@ export default function Home() {
 
   // 배경 변경
   useEffect(() => {
-    // document.body.style.backgroundImage = `url("/images/${bg}")`;
+    document.body.style.backgroundImage = `url("/images/${bg}")`;
     // 여기 바꾸면 배경 확인 가능
-    document.body.style.backgroundImage = `url("/images/clouds.jpg")`;
+    // document.body.style.backgroundImage = `url("/images/clouds.jpg")`;
     document.body.style.backgroundSize = "cover";
     document.body.style.backgroundRepeat = "no-repeat"; // 배경 반복 제거
     document.body.style.backgroundPosition = "center"; /* 중앙에 위치 */
@@ -220,8 +220,6 @@ export default function Home() {
           },
           weather: weather,
         });
-
-        console.log(`weatherInfo: ${weatherInfo}`);
       })
       .catch((error) => {
         console.error(error);

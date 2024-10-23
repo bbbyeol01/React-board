@@ -20,7 +20,10 @@ export default function Write() {
   useEffect(() => {
     // 쿠키 가져오기
     const accessToken = cookies.accessToken;
-    console.log(accessToken);
+
+    if (!accessToken) {
+      return;
+    }
 
     axios
       .get("http://localhost:8080/api/member", {
@@ -29,8 +32,6 @@ export default function Write() {
         },
       })
       .then((response) => {
-        console.log(response.data);
-
         if (response.data) {
           setMember({
             id: response.data?.id,
@@ -62,8 +63,6 @@ export default function Write() {
   async function handleSubmit(e) {
     e.preventDefault();
     e.stopPropagation();
-
-    console.log(formData);
 
     await axios
       .post("http://localhost:8080/api/board", formData)

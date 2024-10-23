@@ -10,11 +10,76 @@ nav {
     // backdrop-filter: blur(10px);
     box-shadow: 1px 3px 9px 888;
 
+    .hamburgerMenu {
+        display: none;
+        margin-left: 10vw;
+        width: calc(100vw - 20vw);
+        justify-content: space-between;
+
+        .loginContainer {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .profileContainer {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+
+            .nicknameContainer {
+                display: flex;
+                align-items: center;
+
+                .nickname {
+                    font-size: 14pt;
+                }
+            }
+
+            .imageContainer {
+                position: relative;
+
+                .profile {
+                    display: flex;
+                    flex-direction: column;
+                    width: 32px;
+                    border-radius: 100px;
+                    align-items: center;
+                    justify-content: center;
+
+                    img {
+                        border: 1px solid lightgray;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        border-radius: inherit;
+                    }
+                }
+
+
+
+                .menu {
+                    position: absolute;
+                    display: none;
+                    flex-direction: column;
+                    width: 150px;
+                    background-color: white;
+                    right: 1vw;
+                    margin-top: 10px;
+                    border: 1px solid lightgray;
+                }
+            }
+        }
+
+    }
 
     .logoContainer {
         margin-left: 5vw;
         justify-self: start;
-
 
         a {
             max-height: 30px;
@@ -127,4 +192,22 @@ nav {
     .light {
         color: white;
     }
+}
+
+
+
+
+@media (max-width: 767px) {
+
+    nav .menuContainer,
+    .logoContainer {
+        display: none;
+    }
+
+    nav .hamburgerMenu {
+        display: flex;
+    }
+
+
+
 }

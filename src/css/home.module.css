@@ -1,6 +1,6 @@
 .section {
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 10vh - 50px - 100px - 50px);
 }
 
 .weatherContainer {
@@ -30,7 +30,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 3.5rem;
+  font-size: 4rem;
   font-weight: bold;
   color: white;
   height: 200px;
@@ -39,8 +39,41 @@
   margin-top: 10vh;
 }
 .greeting .text {
-  width: 50%;
+  overflow: visible;
+  width: 60%;
+  min-width: 200px;
   text-align: center;
-  word-break: word-all;
   text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.3);
+  word-break: keep-all;
+}
+
+@media (max-width: 991px) {
+  .greeting {
+    font-size: 3rem;
+  }
+}
+@media (max-width: 767px) {
+  .weatherContainer {
+    display: flex;
+    margin: 0px 10vw;
+  }
+  .weatherContainer .infoContainer {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    gap: 2px;
+  }
+  .weatherContainer .infoContainer .currentTemp {
+    font-size: 1.2rem;
+  }
+  .weatherContainer .weatherImage {
+    overflow: hidden;
+    display: flex;
+    width: 30px;
+  }
+}
+@media (max-width: 575px) {
+  .greeting {
+    font-size: 2rem;
+  }
 }

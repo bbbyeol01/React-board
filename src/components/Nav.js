@@ -10,12 +10,19 @@ export default function Nav() {
   const currentPath = location.pathname;
   const [cookies, setCookie] = useCookies(["accessToken"]); // 쿠키 이름을 배열로 전달합니다.
   const [member, setMember] = useState();
+  const [menuOpen, setMenuOpen] = useState(false); // 메뉴 열림 상태
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen); // 클릭 시 메뉴 열림/닫힘 상태 토글
+  };
 
   useEffect(() => {
     // 쿠키 값 가져오기
     const accessToken = cookies.accessToken; // 'token'이라는 이름의 쿠키 값을 가져옵니다.
 
-    console.log(accessToken);
+    if (!accessToken) {
+      return;
+    }
 
     axios
       .get("http://localhost:8080/api/member", {
@@ -34,6 +41,68 @@ export default function Nav() {
 
   return (
     <nav>
+      <div className={styles.hamburgerMenu} onClick={toggleMenu}>
+        <svg
+          clip-rule="evenodd"
+          fill-rule="evenodd"
+          stroke-linejoin="round"
+          stroke-miterlimit="2"
+          viewBox="0 0 24 24"
+          width={35}
+          height={35}
+          fill={"white"}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="m22 16.75c0-.414-.336-.75-.75-.75h-18.5c-.414 0-.75.336-.75.75s.336.75.75.75h18.5c.414 0 .75-.336.75-.75zm0-5c0-.414-.336-.75-.75-.75h-18.5c-.414 0-.75.336-.75.75s.336.75.75.75h18.5c.414 0 .75-.336.75-.75zm0-5c0-.414-.336-.75-.75-.75h-18.5c-.414 0-.75.336-.75.75s.336.75.75.75h18.5c.414 0 .75-.336.75-.75z"
+            fill-rule="nonzero"
+          />
+        </svg>
+
+        {member ? (
+          <>
+            <div className={styles.profileContainer}>
+              <div
+                className={`${styles.nicknameContainer} ${
+                  currentPath === "/" ? styles.light : ""
+                }`}
+              >
+                <strong
+                  className={`${styles.nickname} ${
+                    currentPath === "/" ? styles.light : ""
+                  }`}
+                >
+                  {member.nickname}
+                </strong>
+                님
+              </div>
+
+              <div className={styles.imageContainer}>
+                <div className={styles.profile}>
+                  <img src={member.profile_image}></img>
+                </div>
+
+                <div className={styles.menu}>
+                  <Link className={styles.mypage}>마이페이지</Link>
+                  <Link className={styles.logout}>로그아웃</Link>
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className={styles.loginContainer}>
+            <Link
+              to={"/login"}
+              className={`${currentPath === "/login" ? styles.active : ""} ${
+                currentPath === "/" ? styles.light : ""
+              }`}
+            >
+              Login
+            </Link>
+          </div>
+        )}
+      </div>
+
       <div
         className={`${styles.logoContainer} ${
           currentPath === "/" ? styles.light : ""
@@ -46,6 +115,7 @@ export default function Nav() {
           Home
         </Link>
       </div>
+
       <div className={styles.menuContainer}>
         <Link
           to={"/board?page=1"}
