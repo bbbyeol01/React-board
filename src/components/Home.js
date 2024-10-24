@@ -2,12 +2,14 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import styles from "../css/home.module.css";
 import { useCookies } from "react-cookie";
+import useMemberStore from "../../src/store";
 
 export default function Home() {
   const OPENWHETHER_API_KEY = process.env.REACT_APP_OPENWHETHER_API_KEY;
   const [weatherInfo, setWeatherInfo] = useState();
   const [cookies, setCookie] = useCookies(["accessToken"]); // 쿠키 이름을 배열로 전달합니다.
-  const [member, setMember] = useState();
+  const { nickname, getMember } = useMemberStore();
+
   const [bg, setBg] = useState();
   const iconColor = "white";
   const iconSize = "35";
@@ -132,6 +134,7 @@ export default function Home() {
     ],
   };
 
+  /** 사용자 위치 불러오기 */
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -157,30 +160,10 @@ export default function Home() {
     };
   }, [bg]);
 
-  // 사용자 정보
   useEffect(() => {
-    // 쿠키 값 가져오기
     const accessToken = cookies.accessToken; // 'token'이라는 이름의 쿠키 값을 가져옵니다.
 
-    if (!accessToken) {
-      return;
-    }
-
-    axios
-      .get("http://localhost:8080/api/member", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((response) => {
-        setMember({
-          nickname: response.data.nickname,
-          profile_image: response.data.profile_image,
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    getMember(accessToken);
   }, []);
 
   useEffect(() => {
@@ -191,7 +174,7 @@ export default function Home() {
     }
   }, [weatherInfo]);
 
-  /** 현재 위치 */
+  /** 위치 콜백 */
   function getPostionCallback(position) {
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
@@ -206,7 +189,7 @@ export default function Home() {
 
         const tempInfo = data.main;
         const name = data.name;
-        const weather = data.weather[0];
+        const weather = data?.weather[0];
 
         console.log(weather);
 
@@ -252,11 +235,13 @@ export default function Home() {
           ""
         )}
 
-        {member ? (
+        {/* {member ? ( */}
+        {nickname ? (
           <>
             <div className={styles.greeting}>
               <div className={styles.text}>
-                안녕하세요, {member.nickname}님!
+                {/* 안녕하세요, {member.nickname}님! */}
+                안녕하세요, {nickname}님!
               </div>
             </div>
           </>

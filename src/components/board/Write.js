@@ -3,54 +3,25 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import styles from "../../css/write.module.css";
 import { useCookies } from "react-cookie";
+import useMemberStore from "../../../src/store";
 
 export default function Write() {
   const navigate = useNavigate();
+  const { id, nickname, profile_image, getMember } = useMemberStore();
 
   const [formData, setFormData] = useState({
-    writer: "",
+    writer: id,
     title: "",
     content: "",
   });
 
   const [cookies, setCookie] = useCookies(["accessToken"]);
 
-  const [member, setMember] = useState();
-
+  // 멤버 정보
   useEffect(() => {
-    // 쿠키 가져오기
     const accessToken = cookies.accessToken;
-
-    if (!accessToken) {
-      return;
-    }
-
-    axios
-      .get("http://localhost:8080/api/member", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((response) => {
-        if (response.data) {
-          setMember({
-            id: response.data?.id,
-            nickname: response.data?.nickname,
-          });
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
-
-  useEffect(() => {
-    setFormData((prevState) => ({
-      ...prevState,
-      writer: member?.id,
-      nickname: member?.nickname,
-    }));
-  }, [member]);
+    getMember(accessToken);
+  });
 
   function handleChange(e) {
     const { name, value } = e.target;

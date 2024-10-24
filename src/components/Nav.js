@@ -4,39 +4,24 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import useMemberStore from "../../src/store";
 
 export default function Nav() {
   const location = useLocation();
   const currentPath = location.pathname;
   const [cookies, setCookie] = useCookies(["accessToken"]); // 쿠키 이름을 배열로 전달합니다.
-  const [member, setMember] = useState();
+  const { nickname, profile_image, getMember } = useMemberStore();
   const [menuOpen, setMenuOpen] = useState(false); // 메뉴 열림 상태
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen); // 클릭 시 메뉴 열림/닫힘 상태 토글
   };
 
+  // 유저 정보 불러오기
   useEffect(() => {
-    // 쿠키 값 가져오기
     const accessToken = cookies.accessToken; // 'token'이라는 이름의 쿠키 값을 가져옵니다.
 
-    if (!accessToken) {
-      return;
-    }
-
-    axios
-      .get("http://localhost:8080/api/member", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((response) => {
-        setMember({
-          nickname: response.data.nickname,
-          profile_image:
-            response.data.profile_image || "/images/default_profile.png",
-        });
-      });
+    getMember(accessToken);
   }, []);
 
   return (
@@ -59,7 +44,7 @@ export default function Nav() {
           />
         </svg>
 
-        {member ? (
+        {nickname ? (
           <>
             <div className={styles.profileContainer}>
               <div
@@ -72,14 +57,20 @@ export default function Nav() {
                     currentPath === "/" ? styles.light : ""
                   }`}
                 >
-                  {member.nickname}
+                  {nickname}
                 </strong>
                 님
               </div>
 
               <div className={styles.imageContainer}>
                 <div className={styles.profile}>
-                  <img src={member.profile_image}></img>
+                  <img
+                    src={
+                      profile_image
+                        ? profile_image
+                        : "/images/default_profile.png"
+                    }
+                  ></img>
                 </div>
 
                 <div className={styles.menu}>
@@ -134,7 +125,7 @@ export default function Nav() {
           About
         </Link>
 
-        {member ? (
+        {nickname ? (
           <div className={styles.profileContainer}>
             <div
               className={`${styles.nicknameContainer} ${
@@ -146,14 +137,18 @@ export default function Nav() {
                   currentPath === "/" ? styles.light : ""
                 }`}
               >
-                {member.nickname}
+                {nickname}
               </strong>
               님
             </div>
 
             <div className={styles.imageContainer}>
               <div className={styles.profile}>
-                <img src={member.profile_image}></img>
+                <img
+                  src={
+                    profile_image ? profile_image : "images/default_profile.png"
+                  }
+                ></img>
               </div>
 
               <div className={styles.menu}>
