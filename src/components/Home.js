@@ -166,7 +166,7 @@ export default function Home() {
     }
   }, []);
 
-  // 완료된 todo
+  // 완료된 todo 불러오기
   useEffect(() => {
     const completeTodos = localStorage.getItem("completeTodos");
 
@@ -250,7 +250,7 @@ export default function Home() {
   function handleDeleteTodo(targetTodo) {
     setTodos((prev) => {
       const updatedTodos = prev.filter((todo) => todo !== targetTodo);
-      if (completeTodos) {
+      if (updatedTodos) {
         const updateCompleteTodos = Array.from(completeTodos).filter(
           (todo) => todo !== targetTodo
         );
