@@ -1,16 +1,13 @@
 import { Link } from "react-router-dom";
 import styles from "../css/nav.module.css";
 import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
-import axios from "axios";
+import { useState } from "react";
 import useMemberStore from "../../src/store";
 
 export default function Nav() {
   const location = useLocation();
   const currentPath = location.pathname;
-  const [cookies, setCookie] = useCookies(["accessToken"]); // 쿠키 이름을 배열로 전달합니다.
-  const { nickname, profile_image, getMember } = useMemberStore();
+  const { nickname, profile_image } = useMemberStore();
   const [menuOpen, setMenuOpen] = useState(false); // 메뉴 열림 상태
 
   const toggleMenu = () => {
@@ -18,11 +15,11 @@ export default function Nav() {
   };
 
   // 유저 정보 불러오기
-  useEffect(() => {
-    const accessToken = cookies.accessToken; // 'token'이라는 이름의 쿠키 값을 가져옵니다.
+  // useEffect(() => {
+  //   const accessToken = cookies.accessToken; // 'token'이라는 이름의 쿠키 값을 가져옵니다.
 
-    getMember(accessToken);
-  }, []);
+  //   getMember(accessToken);
+  // }, []);
 
   return (
     <nav>

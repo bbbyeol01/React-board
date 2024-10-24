@@ -1,36 +1,118 @@
-.section {
-    width: 100vw;
-    // 100vh  - nav - footer - footer margin - ???
-    height: calc(100vh - 100px - 10vh - 50px - 20px);
+input::placeholder {
+    color: #e3e3e3;
 }
 
-.weatherContainer {
+
+.section {
+    width: 100vw;
+    // 100vh  - nav - footer - footer margin - ??? - inputtodo
+    height: calc(100vh - 100px - 10vh - 50px - 20px - 30px);
+    display: flex;
+    justify-content: space-between;
+}
+
+.todoContainer {
+    margin-left: 5vw;
+    height: calc(100vh / 4);
+
+    .todo-list {
+        display: flex;
+        flex-direction: column;
+
+        .todoTitle {
+            color: white;
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+
+        .todo {
+            width: 300px;
+            min-width: 30px;
+            min-height: 30px;
+            display: flex;
+            gap: 10px;
+            color: white;
+            cursor: pointer;
+            align-items: center;
+
+
+            .checkTodo {
+                min-width: inherit;
+                min-height: inherit;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+            }
+
+            .deleteTodo {
+                min-width: inherit;
+                min-height: inherit;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+
+        }
+
+        .complete {
+            text-decoration: line-through;
+        }
+
+        .showAll {
+            width: inherit;
+            height: inherit;
+            display: none;
+            color: white;
+            font-size: 10pt;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+
+    }
+
+    .todo-list:hover .showAll {
+        display: flex;
+    }
+
+
+
+
+}
+
+.infoContainer {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    margin: 0px 5vw;
     gap: 20px;
     color: white;
     height: 70px;
     min-height: 70px;
+    flex-grow: 1;
+    margin-right: 5vw;
 
-    .infoContainer {
-        display: flex;
-        flex-direction: column;
-        text-align: right;
-        gap: 2px;
-
-        .currentTemp {
-            font-size: 1.4rem;
-        }
-    }
-
-    .weatherImage {
-        overflow: hidden;
-        display: flex;
-    }
-
+    /* 남은 공간을 차지하도록 설정 */
 }
+
+.weatherContainer {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    gap: 2px;
+
+    .currentTemp {
+        font-size: 1.4rem;
+    }
+}
+
+
+.weatherImage {
+    overflow: hidden;
+    display: flex;
+}
+
 
 
 .greeting {
@@ -44,7 +126,8 @@
     height: 200px;
     position: absolute;
     text-align: center;
-    margin-top: 12vh;
+    margin-top: 20vh;
+    z-index: -10;
 
     .text {
         overflow: visible;
@@ -56,6 +139,45 @@
 
     }
 }
+
+.todoInputContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+
+    .inputTodo {
+        display: flex;
+        width: 250px;
+        border-bottom: 2px white solid;
+
+        button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        input {
+            width: 100%;
+            height: 30px;
+            border: none;
+            outline: none;
+            background-color: transparent;
+            z-index: 1000;
+            font-size: 12pt;
+            color: white;
+
+        }
+
+
+    }
+
+
+
+}
+
+
 
 // 기본 CSS를 작성합니다. 
 // 기본으로 작성되는 CSS는 1199px보다 큰 화면에서 작동 됩니다.
@@ -74,11 +196,10 @@
 
 // 가로모드 모바일 디바이스 (가로 해상도가 768px 보다 작은 화면에 적용) 
 @media (max-width: 767px) {
-    .weatherContainer {
-        display: flex;
-        margin: 0px 10vw;
+    .infoContainer {
+        margin-right: 10vw;
 
-        .infoContainer {
+        .weatherContainer {
             display: flex;
             flex-direction: column;
             text-align: right;
@@ -93,9 +214,31 @@
             overflow: hidden;
             display: flex;
             width: 30px;
+            height: 30px;
+
+            img {
+                width: 30px;
+                height: 30px;
+            }
         }
 
     }
+
+    .todoContainer {
+        margin-left: 10vw;
+
+        .todo-list {
+            .todoTitle {
+                font-size: 1.2rem;
+            }
+
+            .todo {
+                width: 150px;
+            }
+        }
+    }
+
+
 
 }
 

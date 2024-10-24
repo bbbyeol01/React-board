@@ -7,7 +7,7 @@ import useMemberStore from "../../../src/store";
 
 export default function Write() {
   const navigate = useNavigate();
-  const { id, nickname, profile_image, getMember } = useMemberStore();
+  const { id } = useMemberStore();
 
   const [formData, setFormData] = useState({
     writer: id,
@@ -15,13 +15,11 @@ export default function Write() {
     content: "",
   });
 
-  const [cookies, setCookie] = useCookies(["accessToken"]);
-
   // 멤버 정보
-  useEffect(() => {
-    const accessToken = cookies.accessToken;
-    getMember(accessToken);
-  });
+  // useEffect(() => {
+  //   const accessToken = cookies.accessToken;
+  //   getMember(accessToken);
+  // });
 
   function handleChange(e) {
     const { name, value } = e.target;

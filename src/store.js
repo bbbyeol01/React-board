@@ -6,7 +6,6 @@ const useMemberStore = create((set) => ({
   nickname: "",
   profile_image: "",
 
-  setMemberId: (id) => set({ id }),
   setMemberNickname: (nickname) => set({ nickname }),
   setMemberProfileImage: (profile_image) => set({ profile_image }),
 

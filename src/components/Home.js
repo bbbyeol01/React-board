@@ -7,40 +7,20 @@ import useMemberStore from "../../src/store";
 export default function Home() {
   const OPENWHETHER_API_KEY = process.env.REACT_APP_OPENWHETHER_API_KEY;
   const [weatherInfo, setWeatherInfo] = useState();
-  const [cookies, setCookie] = useCookies(["accessToken"]); // 쿠키 이름을 배열로 전달합니다.
-  const { nickname, getMember } = useMemberStore();
+  const [tokenCookie, setTokenCookie] = useCookies(["accessToken"]); // 쿠키 이름을 배열로 전달합니다.
+  const [todos, setTodos] = useState([]);
+  const [completeTodos, setCompleteTodos] = useState(new Set());
 
+  const { nickname, getMember } = useMemberStore();
   const [bg, setBg] = useState();
+  const [inputTodo, setInputTodo] = useState("");
+  const [showAll, setShowAll] = useState(false);
+
   const iconColor = "white";
   const iconSize = "35";
-
   const weatherIcon = {
-    "clear sky": [
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={iconSize}
-        height={iconSize}
-        viewBox="0 0 24 24"
-        fill={iconColor}
-      >
-        <path d="M4.069 13h-4.069v-2h4.069c-.041.328-.069.661-.069 1s.028.672.069 1zm3.034-7.312l-2.881-2.881-1.414 1.414 2.881 2.881c.411-.529.885-1.003 1.414-1.414zm11.209 1.414l2.881-2.881-1.414-1.414-2.881 2.881c.528.411 1.002.886 1.414 1.414zm-6.312-3.102c.339 0 .672.028 1 .069v-4.069h-2v4.069c.328-.041.661-.069 1-.069zm0 16c-.339 0-.672-.028-1-.069v4.069h2v-4.069c-.328.041-.661.069-1 .069zm7.931-9c.041.328.069.661.069 1s-.028.672-.069 1h4.069v-2h-4.069zm-3.033 7.312l2.88 2.88 1.415-1.414-2.88-2.88c-.412.528-.886 1.002-1.415 1.414zm-11.21-1.415l-2.88 2.88 1.414 1.414 2.88-2.88c-.528-.411-1.003-.885-1.414-1.414zm6.312-10.897c-3.314 0-6 2.686-6 6s2.686 6 6 6 6-2.686 6-6-2.686-6-6-6z" />
-      </svg>,
-      "clear.jpg",
-      "맑음",
-    ],
-    "few clouds": [
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={iconSize}
-        height={iconSize}
-        viewBox="0 0 24 24"
-        fill={iconColor}
-      >
-        <path d="M20.422 11.516c-.178-3.233-3.031-5.778-6.432-5.492-1.087-1.239-2.693-2.024-4.49-2.024-3.172 0-5.754 2.443-5.922 5.516-2.033.359-3.578 2.105-3.578 4.206 0 2.362 1.949 4.278 4.354 4.278h1.326c.771 1.198 2.124 2 3.674 2h10.291c2.406 0 4.355-1.916 4.355-4.278 0-2.101-1.545-3.847-3.578-4.206zm-15.395 4.484h-.673c-1.297 0-2.354-1.022-2.354-2.278 0-2.118 2.104-2.597 3.488-2.512-.05-1.356.137-5.21 4.012-5.21.967 0 1.714.25 2.29.644-1.823.922-3.096 2.746-3.212 4.872-2.022.358-3.697 2.127-3.551 4.484z" />
-      </svg>,
-      "few_clouds.jpg",
-      "구름 조금",
-    ],
+    "clear sky": ["clear.svg", "clear.jpg", "맑음"],
+    "few clouds": ["few_clouds.svg", "few_clouds.jpg", "구름 조금"],
     "broken clouds": [
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -132,6 +112,7 @@ export default function Home() {
       "snow.jpg",
       "눈",
     ],
+    mist: ["images/icon/mist.png", "mist.jpg", "안개"],
   };
 
   /** 사용자 위치 불러오기 */
@@ -148,7 +129,7 @@ export default function Home() {
   useEffect(() => {
     document.body.style.backgroundImage = `url("/images/${bg}")`;
     // 여기 바꾸면 배경 확인 가능
-    // document.body.style.backgroundImage = `url("/images/clouds.jpg")`;
+    // document.body.style.backgroundImage = `url("/images/clear.jpg")`;
     document.body.style.backgroundSize = "cover";
     document.body.style.backgroundRepeat = "no-repeat"; // 배경 반복 제거
     document.body.style.backgroundPosition = "center"; /* 중앙에 위치 */
@@ -160,12 +141,14 @@ export default function Home() {
     };
   }, [bg]);
 
+  // 멤버 정보
   useEffect(() => {
-    const accessToken = cookies.accessToken; // 'token'이라는 이름의 쿠키 값을 가져옵니다.
+    const accessToken = tokenCookie.accessToken; // 'token'이라는 이름의 쿠키 값을 가져옵니다.
 
     getMember(accessToken);
   }, []);
 
+  // 날씨 갱신 시 배경 변경
   useEffect(() => {
     if (weatherInfo?.weather) {
       setBg(weatherIcon[weatherInfo?.weather.description][1]);
@@ -173,6 +156,24 @@ export default function Home() {
       setBg("ocean-3605547.jpg");
     }
   }, [weatherInfo]);
+
+  // todo 불러오기
+  useEffect(() => {
+    const storedTodos = localStorage.getItem("todos");
+    if (storedTodos) {
+      // 저장이 todo : 값,값,값
+      setTodos(storedTodos.split(","));
+    }
+  }, []);
+
+  // 완료된 todo
+  useEffect(() => {
+    const completeTodos = localStorage.getItem("completeTodos");
+
+    if (completeTodos) {
+      setCompleteTodos(new Set(completeTodos.split(",")));
+    }
+  }, []);
 
   /** 위치 콜백 */
   function getPostionCallback(position) {
@@ -209,47 +210,168 @@ export default function Home() {
       });
   }
 
+  // 위치 오류 콜백
   function errorCallback(error) {
     console.log(error);
+  }
+
+  function handleTodoInputChange(e) {
+    setInputTodo(e.target.value);
+  }
+
+  function handleTodoSubmit(e) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    if (inputTodo.trim()) {
+      setTodos((prev) => {
+        const updateTodos = [...prev, inputTodo.trim()];
+        localStorage.setItem("todos", updateTodos);
+        return updateTodos;
+      });
+    }
+
+    setInputTodo("");
+  }
+
+  function handleShowAllClick() {
+    setShowAll((prev) => !prev);
+  }
+
+  function handleTodoClick(e) {
+    setCompleteTodos((prev) => {
+      const newCompleteTodos = new Set(completeTodos.add(e.target.innerText));
+      localStorage.setItem("completeTodos", Array.from(completeTodos));
+
+      return newCompleteTodos;
+    });
+  }
+
+  function handleDeleteTodo(targetTodo) {
+    setTodos((prev) => {
+      const updatedTodos = prev.filter((todo) => todo !== targetTodo);
+      if (completeTodos) {
+        const updateCompleteTodos = Array.from(completeTodos).filter(
+          (todo) => todo !== targetTodo
+        );
+        localStorage.setItem("completeTodos", updateCompleteTodos);
+        setCompleteTodos(new Set(updateCompleteTodos));
+      }
+
+      // 업데이트된 todos를 localStorage에 저장
+      localStorage.setItem("todos", updatedTodos);
+      return updatedTodos;
+    });
   }
 
   return (
     <>
       <section className={styles.section}>
-        {weatherInfo ? (
-          <>
-            <div className={styles.weatherContainer}>
-              <div className={styles.infoContainer}>
+        <div className={styles.todoContainer}>
+          <div className={styles["todo-list"]}>
+            {todos?.length > 0 ? (
+              <div className={styles.todoTitle}>Tasks</div>
+            ) : (
+              ""
+            )}
+            {todos.map((todo, index) => {
+              if (3 <= index && !showAll) {
+                return;
+              }
+              return (
+                <>
+                  <div
+                    key={index}
+                    className={`${styles.todo} ${
+                      completeTodos.has(todo) ? styles.complete : ""
+                    }`}
+                  >
+                    <div onClick={handleTodoClick}>{todo}</div>
+                    <div
+                      onClick={() => handleDeleteTodo(todo)}
+                      className={styles.deleteTodo}
+                    >
+                      <svg
+                        clip-rule="evenodd"
+                        fill-rule="evenodd"
+                        stroke-linejoin="round"
+                        stroke-miterlimit="2"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="white"
+                        width={15}
+                      >
+                        <path d="m12 10.93 5.719-5.72c.146-.146.339-.219.531-.219.404 0 .75.324.75.749 0 .193-.073.385-.219.532l-5.72 5.719 5.719 5.719c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.385-.073-.531-.219l-5.719-5.719-5.719 5.719c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l5.719-5.719-5.72-5.719c-.146-.147-.219-.339-.219-.532 0-.425.346-.749.75-.749.192 0 .385.073.531.219z" />
+                      </svg>
+                    </div>
+                  </div>
+                </>
+              );
+            })}
+            {!showAll && todos?.length > 3 ? (
+              <div className={styles.showAll} onClick={handleShowAllClick}>
+                더보기 &or;
+              </div>
+            ) : (
+              ""
+            )}
+            {showAll && todos?.length > 3 ? (
+              <div className={styles.showAll} onClick={handleShowAllClick}>
+                접기 &and;
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
+        <article className={styles.infoContainer}>
+          {weatherInfo ? (
+            <>
+              <div className={styles.weatherContainer}>
                 <div className={styles.currentTemp}>
-                  <strong>{weatherInfo.temp.current}°C</strong>
+                  <strong>{Math.floor(weatherInfo.temp.current)}°C</strong>
                 </div>
                 <div>{weatherInfo.name}</div>
                 <div>{weatherIcon[weatherInfo.weather.description][2]}</div>
               </div>
               <div className={styles.weatherImage}>
-                {weatherIcon[weatherInfo.weather.description][0]}
+                <img
+                  src={`images/icon/${
+                    weatherIcon[weatherInfo.weather.description][0]
+                  }`}
+                  alt=""
+                />
               </div>
-            </div>
-          </>
-        ) : (
-          ""
-        )}
-
-        {/* {member ? ( */}
+            </>
+          ) : (
+            ""
+          )}
+        </article>
         {nickname ? (
           <>
-            <div className={styles.greeting}>
-              <div className={styles.text}>
-                {/* 안녕하세요, {member.nickname}님! */}
-                안녕하세요, {nickname}님!
-              </div>
-            </div>
+            <article className={styles.greeting}>
+              <div className={styles.text}>안녕하세요, {nickname}님!</div>
+            </article>
           </>
         ) : (
           <>
             <div className={styles.greeting}>Hello, World!</div>
           </>
         )}
+      </section>
+      <section className={styles.todoInputContainer}>
+        <form className={styles.inputTodo} onSubmit={handleTodoSubmit}>
+          <input
+            type="text"
+            maxLength={15}
+            onChange={handleTodoInputChange}
+            value={inputTodo}
+            placeholder="할일을 등록해보세요."
+          />
+          <button>
+            <img src="images/icon/enter.svg" alt="" />
+          </button>
+        </form>
       </section>
     </>
   );
