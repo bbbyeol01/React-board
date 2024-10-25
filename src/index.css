@@ -63,4 +63,5 @@ footer {
   color: white;
   mix-blend-mode: difference;
   margin-top: 10vh;
+  opacity: 30%;
 }

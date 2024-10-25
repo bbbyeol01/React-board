@@ -5,6 +5,7 @@ import { useState } from "react";
 import useMemberStore from "../../src/store";
 
 export default function Nav() {
+  const ICON_PATH = process.env.REACT_APP_ICON_PATH;
   const location = useLocation();
   const currentPath = location.pathname;
   const { nickname, profile_image } = useMemberStore();
@@ -14,32 +15,10 @@ export default function Nav() {
     setMenuOpen(!menuOpen); // 클릭 시 메뉴 열림/닫힘 상태 토글
   };
 
-  // 유저 정보 불러오기
-  // useEffect(() => {
-  //   const accessToken = cookies.accessToken; // 'token'이라는 이름의 쿠키 값을 가져옵니다.
-
-  //   getMember(accessToken);
-  // }, []);
-
   return (
     <nav>
       <div className={styles.hamburgerMenu} onClick={toggleMenu}>
-        <svg
-          clip-rule="evenodd"
-          fill-rule="evenodd"
-          stroke-linejoin="round"
-          stroke-miterlimit="2"
-          viewBox="0 0 24 24"
-          width={35}
-          height={35}
-          fill={"white"}
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="m22 16.75c0-.414-.336-.75-.75-.75h-18.5c-.414 0-.75.336-.75.75s.336.75.75.75h18.5c.414 0 .75-.336.75-.75zm0-5c0-.414-.336-.75-.75-.75h-18.5c-.414 0-.75.336-.75.75s.336.75.75.75h18.5c.414 0 .75-.336.75-.75zm0-5c0-.414-.336-.75-.75-.75h-18.5c-.414 0-.75.336-.75.75s.336.75.75.75h18.5c.414 0 .75-.336.75-.75z"
-            fill-rule="nonzero"
-          />
-        </svg>
+        <img src={`${ICON_PATH}/hamburger.svg`} />
 
         {nickname ? (
           <>
@@ -113,14 +92,14 @@ export default function Nav() {
         >
           Board
         </Link>
-        <Link
+        {/* <Link
           to={"/about"}
           className={`${currentPath === "/about" ? styles.active : ""} ${
             currentPath === "/" ? styles.light : ""
           }`}
         >
           About
-        </Link>
+        </Link> */}
 
         {nickname ? (
           <div className={styles.profileContainer}>

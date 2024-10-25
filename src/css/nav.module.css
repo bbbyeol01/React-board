@@ -4,7 +4,6 @@ nav {
   height: 100px;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent);
   box-shadow: 1px 3px 9px 888;
 }
 nav .hamburgerMenu {

@@ -3,6 +3,16 @@ input::placeholder {
   color: #e3e3e3;
 }
 
+.dimmed {
+  left: 0;
+  top: 0;
+  position: absolute;
+  width: 100vw;
+  height: 30vh;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent);
+  z-index: -500;
+}
+
 .section {
   width: 100vw;
   height: calc(100vh - 100px - 10vh - 50px - 20px - 30px);

@@ -5,6 +5,7 @@ import { useCookies } from "react-cookie";
 import useMemberStore from "../../src/store";
 
 export default function Home() {
+  const ICON_PATH = process.env.REACT_APP_ICON_PATH;
   const OPENWHETHER_API_KEY = process.env.REACT_APP_OPENWHETHER_API_KEY;
   const [weatherInfo, setWeatherInfo] = useState();
   const [tokenCookie, setTokenCookie] = useCookies(["accessToken"]); // 쿠키 이름을 배열로 전달합니다.
@@ -16,103 +17,33 @@ export default function Home() {
   const [inputTodo, setInputTodo] = useState("");
   const [showAll, setShowAll] = useState(false);
 
-  const iconColor = "white";
-  const iconSize = "35";
-  const weatherIcon = {
-    "clear sky": ["clear.svg", "clear.jpg", "맑음"],
-    "few clouds": ["few_clouds.svg", "few_clouds.jpg", "구름 조금"],
-    "broken clouds": [
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={iconSize}
-        height={iconSize}
-        viewBox="0 0 24 24"
-        fill={iconColor}
-      >
-        <path d="M20.422 11.516c-.178-3.233-3.031-5.778-6.432-5.492-1.087-1.239-2.693-2.024-4.49-2.024-3.172 0-5.754 2.443-5.922 5.516-2.033.359-3.578 2.105-3.578 4.206 0 2.362 1.949 4.278 4.354 4.278h1.326c.771 1.198 2.124 2 3.674 2h10.291c2.406 0 4.355-1.916 4.355-4.278 0-2.101-1.545-3.847-3.578-4.206zm-15.395 4.484h-.673c-1.297 0-2.354-1.022-2.354-2.278 0-2.118 2.104-2.597 3.488-2.512-.05-1.356.137-5.21 4.012-5.21.967 0 1.714.25 2.29.644-1.823.922-3.096 2.746-3.212 4.872-2.022.358-3.697 2.127-3.551 4.484z" />
-      </svg>,
-      "clouds.jpg",
-      "흐림",
+  const weatherData = {
+    "clear sky": [`${ICON_PATH}/clear.svg`, "clear.jpg", "맑음"],
+    "few clouds": [
+      `${ICON_PATH}/few_clouds.svg`,
+      "few_clouds.jpg",
+      "구름 조금",
     ],
-    "overcast clouds": [
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={iconSize}
-        height={iconSize}
-        viewBox="0 0 24 24"
-        fill={iconColor}
-      >
-        <path d="M20.422 11.516c-.178-3.233-3.031-5.778-6.432-5.492-1.087-1.239-2.693-2.024-4.49-2.024-3.172 0-5.754 2.443-5.922 5.516-2.033.359-3.578 2.105-3.578 4.206 0 2.362 1.949 4.278 4.354 4.278h1.326c.771 1.198 2.124 2 3.674 2h10.291c2.406 0 4.355-1.916 4.355-4.278 0-2.101-1.545-3.847-3.578-4.206zm-15.395 4.484h-.673c-1.297 0-2.354-1.022-2.354-2.278 0-2.118 2.104-2.597 3.488-2.512-.05-1.356.137-5.21 4.012-5.21.967 0 1.714.25 2.29.644-1.823.922-3.096 2.746-3.212 4.872-2.022.358-3.697 2.127-3.551 4.484z" />
-      </svg>,
-      "clouds.jpg",
-      "흐림",
-    ],
+    "broken clouds": [`${ICON_PATH}/clouds.svg`, "clouds.jpg", "흐림"],
+    "overcast clouds": [`${ICON_PATH}/clouds.svg`, "clouds.jpg", "흐림"],
     "scattered clouds": [
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={iconSize}
-        height={iconSize}
-        viewBox="0 0 24 24"
-        fill={iconColor}
-      >
-        <path d="M20.422 11.516c-.178-3.233-3.031-5.778-6.432-5.492-1.087-1.239-2.693-2.024-4.49-2.024-3.172 0-5.754 2.443-5.922 5.516-2.033.359-3.578 2.105-3.578 4.206 0 2.362 1.949 4.278 4.354 4.278h1.326c.771 1.198 2.124 2 3.674 2h10.291c2.406 0 4.355-1.916 4.355-4.278 0-2.101-1.545-3.847-3.578-4.206zm-15.395 4.484h-.673c-1.297 0-2.354-1.022-2.354-2.278 0-2.118 2.104-2.597 3.488-2.512-.05-1.356.137-5.21 4.012-5.21.967 0 1.714.25 2.29.644-1.823.922-3.096 2.746-3.212 4.872-2.022.358-3.697 2.127-3.551 4.484z" />
-      </svg>,
+      `${ICON_PATH}/few_clouds.svg`,
       "few_clouds.jpg",
       "구름 조금",
     ],
     thunderstorm: [
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={iconSize}
-        height={iconSize}
-        viewBox="0 0 24 24"
-        fill={iconColor}
-      >
-        <path d="M20.422 7.516c-.178-3.232-3.031-5.777-6.432-5.491-1.087-1.24-2.693-2.025-4.49-2.025-3.172 0-5.754 2.443-5.922 5.516-2.033.359-3.578 2.105-3.578 4.206 0 2.362 1.949 4.278 4.354 4.278h1.326c.771 1.198 2.124 2 3.674 2h1.381l2.078-4.5h6.328l-2.032 4.5h2.535c2.407 0 4.356-1.916 4.356-4.278 0-2.101-1.545-3.847-3.578-4.206zm-15.395 4.484h-.673c-1.297 0-2.354-1.021-2.354-2.278 0-2.118 2.104-2.597 3.488-2.513-.05-1.355.137-5.209 4.012-5.209.967 0 1.714.25 2.29.645-1.823.921-3.096 2.745-3.212 4.871-2.022.357-3.697 2.127-3.551 4.484zm9.973 5h3l-6 7 2-5h-3l2.802-6h3.042l-1.844 4z" />
-      </svg>,
+      `${ICON_PATH}/thunderstorm.svg`,
       "thunderstorm.jpg",
       "천둥번개",
     ],
     "shower rain": [
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={iconSize}
-        height={iconSize}
-        viewBox="0 0 24 24"
-        fill={iconColor}
-      >
-        <path d="M5.582 23l-1.41-1.41 3.59-3.59 1.41 1.41-3.59 3.59zm8.543-3.59l-1.41-1.41-3.59 3.59 1.41 1.41 3.59-3.59zm4.875 0l-1.41-1.41-3.59 3.59 1.41 1.41 3.59-3.59zm5-6.688c0 2.362-1.949 4.278-4.355 4.278h-10.291c-1.55 0-2.902-.802-3.674-2h-1.326c-2.405 0-4.354-1.916-4.354-4.278 0-2.101 1.545-3.846 3.578-4.206.168-3.073 2.75-5.516 5.922-5.516 1.797 0 3.403.785 4.49 2.024 3.4-.286 6.254 2.258 6.432 5.492 2.033.359 3.578 2.105 3.578 4.206zm-15.422-4.206c.116-2.126 1.389-3.95 3.212-4.872-.576-.394-1.323-.644-2.29-.644-3.875 0-4.062 3.854-4.012 5.209-1.384-.084-3.488.395-3.488 2.513 0 1.256 1.057 2.278 2.354 2.278h.674c-.147-2.357 1.528-4.126 3.55-4.484z" />
-      </svg>,
+      `${ICON_PATH}/shower_rain.svg`,
       "shower_rain.jpg",
       "소나기",
     ],
-    "moderate rain": [
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={iconSize}
-        height={iconSize}
-        viewBox="0 0 24 24"
-        fill={iconColor}
-      >
-        <path d="M5.582 23l-1.41-1.41 3.59-3.59 1.41 1.41-3.59 3.59zm8.543-3.59l-1.41-1.41-3.59 3.59 1.41 1.41 3.59-3.59zm4.875 0l-1.41-1.41-3.59 3.59 1.41 1.41 3.59-3.59zm5-6.688c0 2.362-1.949 4.278-4.355 4.278h-10.291c-1.55 0-2.902-.802-3.674-2h-1.326c-2.405 0-4.354-1.916-4.354-4.278 0-2.101 1.545-3.846 3.578-4.206.168-3.073 2.75-5.516 5.922-5.516 1.797 0 3.403.785 4.49 2.024 3.4-.286 6.254 2.258 6.432 5.492 2.033.359 3.578 2.105 3.578 4.206zm-15.422-4.206c.116-2.126 1.389-3.95 3.212-4.872-.576-.394-1.323-.644-2.29-.644-3.875 0-4.062 3.854-4.012 5.209-1.384-.084-3.488.395-3.488 2.513 0 1.256 1.057 2.278 2.354 2.278h.674c-.147-2.357 1.528-4.126 3.55-4.484z" />
-      </svg>,
-      "",
-      "비",
-    ],
-    snow: [
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={iconSize}
-        height={iconSize}
-        viewBox="0 0 24 24"
-        fill={iconColor}
-      >
-        <path d="M14 19.25c0 .689-.559 1.25-1.25 1.25s-1.25-.561-1.25-1.25.559-1.25 1.25-1.25 1.25.561 1.25 1.25zm-3.75 1.25c-.691 0-1.25.561-1.25 1.25s.559 1.25 1.25 1.25 1.25-.561 1.25-1.25-.559-1.25-1.25-1.25zm8.75-1.25c0 .689-.559 1.25-1.25 1.25s-1.25-.561-1.25-1.25.559-1.25 1.25-1.25 1.25.561 1.25 1.25zm-3.75 1.25c-.691 0-1.25.561-1.25 1.25s.559 1.25 1.25 1.25 1.25-.561 1.25-1.25-.559-1.25-1.25-1.25zm-6.25-1.25c0 .689-.559 1.25-1.25 1.25s-1.25-.561-1.25-1.25.559-1.25 1.25-1.25 1.25.561 1.25 1.25zm-3.75 1.25c-.691 0-1.25.561-1.25 1.25s.559 1.25 1.25 1.25 1.25-.561 1.25-1.25-.559-1.25-1.25-1.25zm18.75-7.778c0 2.362-1.949 4.278-4.355 4.278h-10.291c-1.55 0-2.902-.802-3.674-2h-1.326c-2.405 0-4.354-1.916-4.354-4.278 0-2.101 1.545-3.847 3.578-4.206.168-3.073 2.75-5.516 5.922-5.516 1.797 0 3.403.785 4.49 2.024 3.4-.286 6.254 2.259 6.432 5.491 2.033.36 3.578 2.106 3.578 4.207zm-15.422-4.206c.116-2.126 1.389-3.95 3.212-4.871-.576-.395-1.323-.645-2.29-.645-3.875 0-4.062 3.854-4.012 5.209-1.384-.084-3.488.395-3.488 2.513 0 1.257 1.057 2.278 2.354 2.278h.674c-.147-2.357 1.528-4.127 3.55-4.484zm13.422 4.206c0-2.075-1.979-2.618-3.488-2.513.217-1.438-.241-5.209-4.012-5.209-3.875 0-4.062 3.854-4.012 5.209-1.384-.084-3.488.395-3.488 2.513 0 1.257 1.057 2.278 2.354 2.278h10.291c1.298 0 2.355-1.021 2.355-2.278zm-5.521-3.97l-1.479.881v-1.633h-1v1.633l-1.494-.896-.506.867 1.499.896-1.499.865.537.867 1.463-.865v1.633h1v-1.633l1.467.869.533-.867-1.499-.869 1.499-.881-.521-.867z" />
-      </svg>,
-      "snow.jpg",
-      "눈",
-    ],
-    mist: ["images/icon/mist.png", "mist.jpg", "안개"],
+    "moderate rain": [`${ICON_PATH}/rain.svg`, "", "비"],
+    snow: [`${ICON_PATH}/snow.svg`, "snow.jpg", "눈"],
+    mist: [`${ICON_PATH}/mist.png`, "mist.jpg", "안개"],
   };
 
   /** 사용자 위치 불러오기 */
@@ -151,7 +82,7 @@ export default function Home() {
   // 날씨 갱신 시 배경 변경
   useEffect(() => {
     if (weatherInfo?.weather) {
-      setBg(weatherIcon[weatherInfo?.weather.description][1]);
+      setBg(weatherData[weatherInfo?.weather.description][1]);
     } else {
       setBg("ocean-3605547.jpg");
     }
@@ -247,7 +178,7 @@ export default function Home() {
     });
   }
 
-  function handleDeleteTodo(targetTodo) {
+  function handleTodoDeleteClick(targetTodo) {
     setTodos((prev) => {
       const updatedTodos = prev.filter((todo) => todo !== targetTodo);
       if (updatedTodos) {
@@ -288,21 +219,10 @@ export default function Home() {
                   >
                     <div onClick={handleTodoClick}>{todo}</div>
                     <div
-                      onClick={() => handleDeleteTodo(todo)}
+                      onClick={() => handleTodoDeleteClick(todo)}
                       className={styles.deleteTodo}
                     >
-                      <svg
-                        clip-rule="evenodd"
-                        fill-rule="evenodd"
-                        stroke-linejoin="round"
-                        stroke-miterlimit="2"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="white"
-                        width={15}
-                      >
-                        <path d="m12 10.93 5.719-5.72c.146-.146.339-.219.531-.219.404 0 .75.324.75.749 0 .193-.073.385-.219.532l-5.72 5.719 5.719 5.719c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.385-.073-.531-.219l-5.719-5.719-5.719 5.719c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l5.719-5.719-5.72-5.719c-.146-.147-.219-.339-.219-.532 0-.425.346-.749.75-.749.192 0 .385.073.531.219z" />
-                      </svg>
+                      <img src={`${ICON_PATH}/delete.svg`} alt="" srcset="" />
                     </div>
                   </div>
                 </>
@@ -332,13 +252,11 @@ export default function Home() {
                   <strong>{Math.floor(weatherInfo.temp.current)}°C</strong>
                 </div>
                 <div>{weatherInfo.name}</div>
-                <div>{weatherIcon[weatherInfo.weather.description][2]}</div>
+                <div>{weatherData[weatherInfo.weather.description][2]}</div>
               </div>
               <div className={styles.weatherImage}>
                 <img
-                  src={`images/icon/${
-                    weatherIcon[weatherInfo.weather.description][0]
-                  }`}
+                  src={`${weatherData[weatherInfo.weather.description][0]}`}
                   alt=""
                 />
               </div>
@@ -366,13 +284,14 @@ export default function Home() {
             maxLength={15}
             onChange={handleTodoInputChange}
             value={inputTodo}
-            placeholder="할일을 등록해보세요."
+            placeholder="할 일을 등록해보세요."
           />
           <button>
-            <img src="images/icon/enter.svg" alt="" />
+            <img src={`${ICON_PATH}/enter.svg`} alt="" />
           </button>
         </form>
       </section>
+      <section className={styles.dimmed}></section>
     </>
   );
 }
