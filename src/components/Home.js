@@ -44,6 +44,7 @@ export default function Home() {
     "moderate rain": [`${ICON_PATH}/rain.svg`, "", "비"],
     snow: [`${ICON_PATH}/snow.svg`, "snow.jpg", "눈"],
     mist: [`${ICON_PATH}/mist.png`, "mist.jpg", "안개"],
+    fog: [`${ICON_PATH}/mist.png`, "mist.jpg", "흐림"]
   };
 
   /** 사용자 위치 불러오기 */
@@ -60,7 +61,7 @@ export default function Home() {
   useEffect(() => {
     document.body.style.backgroundImage = `url("/images/${bg}")`;
     // 여기 바꾸면 배경 확인 가능
-    // document.body.style.backgroundImage = `url("/images/clear.jpg")`;
+    // document.body.style.backgroundImage = `url("/images/clouds.jpg")`;
     document.body.style.backgroundSize = "cover";
     document.body.style.backgroundRepeat = "no-repeat"; // 배경 반복 제거
     document.body.style.backgroundPosition = "center"; /* 중앙에 위치 */
@@ -106,12 +107,12 @@ export default function Home() {
     }
   }, []);
 
-  /** 위치 콜백 */
+  /** 위치 콜백 -> 날씨 불러오기 */
   function getPostionCallback(position) {
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
 
-    // 날씨 불러오기
+    // 날씨 - openweather
     axios
       .get(
         `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${OPENWHETHER_API_KEY}&units=${"metric"}`
@@ -172,7 +173,7 @@ export default function Home() {
   function handleTodoClick(e) {
     setCompleteTodos((prev) => {
       const newCompleteTodos = new Set(completeTodos.add(e.target.innerText));
-      localStorage.setItem("completeTodos", Array.from(completeTodos));
+      localStorage.setItem("completeTodos", Array.from(newCompleteTodos));
 
       return newCompleteTodos;
     });
@@ -185,8 +186,10 @@ export default function Home() {
         const updateCompleteTodos = Array.from(completeTodos).filter(
           (todo) => todo !== targetTodo
         );
+        // const updateCompleteTodos = completeTodos.delete(targetTodo);
         localStorage.setItem("completeTodos", updateCompleteTodos);
         setCompleteTodos(new Set(updateCompleteTodos));
+        // setCompleteTodos(updateCompleteTodos)
       }
 
       // 업데이트된 todos를 localStorage에 저장

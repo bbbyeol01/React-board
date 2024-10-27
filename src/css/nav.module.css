@@ -62,7 +62,7 @@ nav .hamburgerMenu .profileContainer .imageContainer .menu {
   border: 1px solid lightgray;
 }
 nav .logoContainer {
-  margin-left: 5vw;
+  margin-left: 7.5vw;
   justify-self: start;
 }
 nav .logoContainer a {
@@ -82,7 +82,7 @@ nav .logoContainer .active {
 nav .menuContainer {
   display: flex;
   gap: 20px;
-  margin-right: 5vw;
+  margin-right: 7.5vw;
   justify-self: end;
 }
 nav .menuContainer a {
