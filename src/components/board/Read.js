@@ -11,6 +11,7 @@ export default function Read() {
   const { idx } = useParams(); // URL에서 idx 추출
 
   const [replys, setReplys] = useState([]);
+  const [inputReply, setInputReply] = useState("");
 
   useEffect(() => {
     axios
@@ -21,7 +22,18 @@ export default function Read() {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [idx]);
+
+  function handleInputReplyChange(e) {
+    setInputReply(e.target.value);
+  }
+
+  function handleReplyRegistBtnClick(e) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    
+  }
 
   return (
     <>
@@ -34,10 +46,20 @@ export default function Read() {
         <form className={styles.replyContainer} action="">
           <div className={styles.inputContainer}>
             <img className={styles.profileImage} src="" alt="" />
-            <textarea className={styles.reply}></textarea>
+            <textarea
+              value={inputReply}
+              name="reply"
+              onChange={handleInputReplyChange}
+              className={styles.reply}
+            ></textarea>
           </div>
           <div className={styles.buttonContainer}>
-            <button className={styles.replyBtn}>작성</button>
+            <button
+              onClick={handleReplyRegistBtnClick}
+              className={styles.replyBtn}
+            >
+              작성
+            </button>
           </div>
         </form>
         {replys ? replys.map((reply) => <Reply reply={reply}></Reply>) : ""}

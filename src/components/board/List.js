@@ -23,6 +23,13 @@ export default function List({ page }) {
       });
   }, [page]);
 
+  function handlePageBtnClick() {
+    window.scrollTo({
+      top: 0, // 스크롤의 목표 위치 (0: 맨 위)
+      behavior:""
+    });
+  }
+
   if (loading) {
     return (
       <>
@@ -42,7 +49,11 @@ export default function List({ page }) {
             }`}
           >
             <div className={styles.titleContainer}>
-              <Link to={`/board/${post.idx}`} className={styles.title}>
+              <Link
+                onClick={handlePageBtnClick}
+                to={`/board/${post.idx}`}
+                className={styles.title}
+              >
                 {post.title}
               </Link>
             </div>

@@ -84,12 +84,12 @@ export default function Login() {
           </form>
         </section>
 
-        {/* <button className="" onClick={kakaoLogin}>
+        <button className="" onClick={kakaoLogin}>
           카카오 로그인
-        </button> */}
-        {/* <section>
+        </button>
+        <section>
           <Link to={"/"}>회원가입</Link>
-        </section> */}
+        </section>
       </main>
     </>
   );

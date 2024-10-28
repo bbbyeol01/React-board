@@ -8,14 +8,18 @@ export default function Home() {
   const ICON_PATH = process.env.REACT_APP_ICON_PATH;
   const OPENWHETHER_API_KEY = process.env.REACT_APP_OPENWHETHER_API_KEY;
   const [weatherInfo, setWeatherInfo] = useState();
-  const [tokenCookie, setTokenCookie] = useCookies(["accessToken"]); // 쿠키 이름을 배열로 전달합니다.
+  const [cookies, setCookies] = useCookies(["accessToken"]); // 쿠키 이름을 배열로 전달합니다.
   const [todos, setTodos] = useState([]);
   const [completeTodos, setCompleteTodos] = useState(new Set());
 
-  const { nickname, getMember } = useMemberStore();
+  const { getMemberInfo } = useMemberStore();
   const [bg, setBg] = useState();
   const [inputTodo, setInputTodo] = useState("");
   const [showAll, setShowAll] = useState(false);
+  const [memberInfo, setMemberInfo] = useState({
+    nickname: "",
+    profile_image: "",
+  });
 
   const weatherData = {
     "clear sky": [`${ICON_PATH}/clear.svg`, "clear.jpg", "맑음"],
@@ -44,7 +48,7 @@ export default function Home() {
     "moderate rain": [`${ICON_PATH}/rain.svg`, "", "비"],
     snow: [`${ICON_PATH}/snow.svg`, "snow.jpg", "눈"],
     mist: [`${ICON_PATH}/mist.png`, "mist.jpg", "안개"],
-    fog: [`${ICON_PATH}/mist.png`, "mist.jpg", "흐림"]
+    fog: [`${ICON_PATH}/mist.png`, "mist.jpg", "흐림"],
   };
 
   /** 사용자 위치 불러오기 */
@@ -73,12 +77,19 @@ export default function Home() {
     };
   }, [bg]);
 
-  // 멤버 정보
   useEffect(() => {
-    const accessToken = tokenCookie.accessToken; // 'token'이라는 이름의 쿠키 값을 가져옵니다.
+    const fetchMemberInfo = async () => {
+      const accessToken = cookies.accessToken; // 'token'이라는 이름의 쿠키 값을 가져옵니다.
 
-    getMember(accessToken);
-  }, []);
+      const memberInfo = await getMemberInfo(accessToken); // 비동기 호출에서 await 사용
+      setMemberInfo({
+        nickname: memberInfo.nickname,
+        profile_image: memberInfo.profile_image,
+      });
+    };
+
+    fetchMemberInfo();
+  }, [cookies.accessToken]);
 
   // 날씨 갱신 시 배경 변경
   useEffect(() => {
@@ -268,10 +279,12 @@ export default function Home() {
             ""
           )}
         </article>
-        {nickname ? (
+        {memberInfo.nickname ? (
           <>
             <article className={styles.greeting}>
-              <div className={styles.text}>안녕하세요, {nickname}님!</div>
+              <div className={styles.text}>
+                안녕하세요, {memberInfo.nickname}님!
+              </div>
             </article>
           </>
         ) : (

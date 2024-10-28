@@ -7,19 +7,29 @@ import useMemberStore from "../../../src/store";
 
 export default function Write() {
   const navigate = useNavigate();
-  const { id } = useMemberStore();
+  const { getId } = useMemberStore();
+  const [cookies, setCookies] = useCookies(["accessToken"]); // 쿠키 이름을 배열로 전달합니다.
 
   const [formData, setFormData] = useState({
-    writer: id,
+    writer: "",
     title: "",
     content: "",
   });
 
-  // 멤버 정보
-  // useEffect(() => {
-  //   const accessToken = cookies.accessToken;
-  //   getMember(accessToken);
-  // });
+  useEffect(() => {
+    const fetchMemberInfo = async () => {
+      const accessToken = cookies.accessToken; // 'token'이라는 이름의 쿠키 값을 가져옵니다.
+
+      const id = await getId(accessToken);
+      setFormData({
+        writer: id,
+        title: "",
+        content: "",
+      });
+    };
+
+    fetchMemberInfo();
+  }, [cookies.accessToken]);
 
   function handleChange(e) {
     const { name, value } = e.target;
