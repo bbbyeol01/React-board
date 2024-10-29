@@ -65,9 +65,9 @@ export default function Nav() {
                 <div className={styles.profile}>
                   <img
                     src={
-                      memberInfo.profile_image != "" || memberInfo.profile_image
+                      memberInfo.profile_image || memberInfo.profile_image == ""
                         ? memberInfo.profile_image
-                        : "images/default_profile.png"
+                        : "/images/default_profile.png"
                     }
                   ></img>
                 </div>
@@ -145,9 +145,9 @@ export default function Nav() {
               <div className={styles.profile}>
                 <img
                   src={
-                    memberInfo.profile_image != "" || memberInfo.profile_image
+                    memberInfo.profile_image || memberInfo.profile_image == ""
                       ? memberInfo.profile_image
-                      : "images/default_profile.png"
+                      : "/images/default_profile.png"
                   }
                 ></img>
               </div>

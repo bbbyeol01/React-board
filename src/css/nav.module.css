@@ -125,11 +125,12 @@ nav .menuContainer .profileContainer .imageContainer .profile {
   border-radius: 100px;
   align-items: center;
   justify-content: center;
+  height: 32px;
 }
 nav .menuContainer .profileContainer .imageContainer .profile img {
   border: 1px solid lightgray;
-  width: 100%;
-  height: 100%;
+  width: inherit;
+  height: inherit;
   object-fit: cover;
   border-radius: inherit;
 }
